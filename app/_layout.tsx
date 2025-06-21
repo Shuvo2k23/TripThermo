@@ -3,6 +3,7 @@ import { Image } from "react-native";
 
 export default function RootLayout() {
   return (
+    
     <Stack screenOptions={{
           headerTitle: () => (
             <Image
@@ -11,10 +12,9 @@ export default function RootLayout() {
             />
           ),headerTitleAlign: 'center',
         }}>
-      <Stack.Screen
-        name="index"
-        
-      />
+      <Stack.Screen name="login"/>
+      <Stack.Screen name="index"/>
+      <Stack.Screen name="signup"/>
       <Stack.Screen name="add"/>
     </Stack>
   );

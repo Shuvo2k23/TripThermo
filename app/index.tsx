@@ -1,35 +1,40 @@
-import { db } from "@/firebaseConfig";
+import { auth, db } from "@/firebaseConfig";
+import { getAuth, signOut } from "@firebase/auth";
 import { router } from "expo-router";
 import { onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Button, ScrollView, Text, TextInput, View } from "react-native";
 import styles from "./css/styles";
 
-export default function App() {
+export default function Index() {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState<PlaceData>();
+  const [usermail, setUsermail] = useState<String|null>();
   type PlaceData = {
-  [key: string]: {
-    place: string;
-    district: string;
+    [key: string]: {
+      place: string;
+      district: string;
+    };
   };
-};
-  const places= [];
-  useEffect(()=>{
+  const places = [];
+  useEffect(() => {
     getDatabase();
-  },[]);
+    const user = auth.currentUser;
+    if (user) {
+      console.log("User email: ", user.email);
+      setUsermail(user.email);
+    }
+  }, []);
   const handleSearch = () => {
     console.log("Searching for:", searchText);
   };
   type data = {
-  [key: string]: {
-    place: string;  
-    district: string;
+    [key: string]: {
+      place: string;
+      district: string;
+    };
   };
-  
-};
-  
-  
+
   const getDatabase = async () => {
     try {
       const starCountRef = ref(db, "users/");
@@ -65,9 +70,11 @@ export default function App() {
 
         {/* Cards Area */}
         <View style={styles.cardContainer}>
-          {/* You can include card components here */}
-            
-             <Button title="Add" onPress={()=>router.push('/add')}/>
+          {usermail == "admin@fake.com" ? (
+            <Button title="Add" onPress={() => router.push("/add")} />
+          ) : (
+            ""
+          )}
           {data ? (
             Object.entries(data).map(([key, val]) => (
               <View key={key} style={styles.card}>
@@ -80,6 +87,10 @@ export default function App() {
           )}
         </View>
       </ScrollView>
+       <Button title="Log Out" onPress={() => {
+        signOut(getAuth()).then(() => console.log('User signed out!'));
+        router.replace("/login")
+       }} />
     </View>
   );
 }
