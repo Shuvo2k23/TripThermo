@@ -13,7 +13,7 @@ import { onValue, ref } from "firebase/database";
 import { db } from "@/firebaseConfig";
 import { set } from "firebase/database";
 
-export default function add() {
+export default function Add() {
   const [place, setPlace] = useState("");
   const [district, setDistrict] = useState("");
   const [data, setData] = useState<PlaceData>();

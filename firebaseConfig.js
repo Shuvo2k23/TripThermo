@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-
 const firebaseConfig = {
   apiKey: "AIzaSyAGITN2yX4D4Ge4LGRxqahJx3BGQyOrTF0",
   authDomain: "tripthermo.firebaseapp.com",
@@ -27,3 +27,4 @@ const firebaseConfig = {
 // if(analytics)
 // export { analytics };
 export const db = getDatabase(app);
+export const auth = getAuth(app);
