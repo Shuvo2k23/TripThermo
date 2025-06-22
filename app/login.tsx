@@ -2,8 +2,8 @@ import { auth } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
-
+import { Alert, Button, Text, TextInput, View } from "react-native";
+import styles from "./css/login";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,18 +44,4 @@ export default function Login() {
   );
 }
 
-export const styles = StyleSheet.create({
-  container: { padding: 20, flex: 1, justifyContent: "center" },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    marginBottom: 12,
-    borderRadius: 6,
-  },
-  title: { fontSize: 24, marginBottom: 20, textAlign: "center" },
-  buttonWrapper: {
-    padding: 10, // ⬅️ Padding inside the wrapper
-    marginTop: 10, // Optional space above
-  },
-});
+
