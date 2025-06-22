@@ -3,13 +3,14 @@ import { getAuth, signOut } from "@firebase/auth";
 import { router } from "expo-router";
 import { onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
-import { Button, ScrollView, Text, TextInput, View } from "react-native";
+import { Button, ScrollView, TextInput, View } from "react-native";
+import PlaceCardList from "./components/PlaceLists";
 import styles from "./css/styles";
 
 export default function Index() {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState<PlaceData>();
-  const [usermail, setUsermail] = useState<String|null>();
+  const [usermail, setUsermail] = useState<String | null>();
   type PlaceData = {
     [key: string]: {
       place: string;
@@ -75,22 +76,16 @@ export default function Index() {
           ) : (
             ""
           )}
-          {data ? (
-            Object.entries(data).map(([key, val]) => (
-              <View key={key} style={styles.card}>
-                <Text style={styles.placeText}>📍 {val.place}</Text>
-                <Text style={styles.districtText}>🏙️ {val.district}</Text>
-              </View>
-            ))
-          ) : (
-            <Text style={styles.loadingText}>Loading or no data available</Text>
-          )}
+          <PlaceCardList data={data}/>
         </View>
+      <Button
+        title="Log Out"
+        onPress={() => {
+          signOut(getAuth()).then(() => console.log("User signed out!"));
+          router.replace("/login");
+        }}
+      />
       </ScrollView>
-       <Button title="Log Out" onPress={() => {
-        signOut(getAuth()).then(() => console.log('User signed out!'));
-        router.replace("/login")
-       }} />
     </View>
   );
 }
