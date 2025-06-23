@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '	#ffedbf',
   },
   header: {
     height: 100,
@@ -23,10 +23,10 @@ export default StyleSheet.create({
     padding: 16,
   },
   searchContainer: {
+    flex:1,
     flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 20,
-    gap: 8,
+     
   },
   searchInput: {
     flex: 1,

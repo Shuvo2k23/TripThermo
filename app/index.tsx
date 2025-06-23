@@ -3,14 +3,16 @@ import { getAuth, signOut } from "@firebase/auth";
 import { router } from "expo-router";
 import { onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
-import { Button, ScrollView, TextInput, View } from "react-native";
+import { Button, ScrollView, View } from "react-native";
 import PlaceCardList from "./components/PlaceLists";
+import SearchBox from "./components/SearchBox";
 import styles from "./css/styles";
 
 export default function Index() {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState<PlaceData>();
   const [usermail, setUsermail] = useState<String | null>();
+  
   type PlaceData = {
     [key: string]: {
       place: string;
@@ -26,6 +28,19 @@ export default function Index() {
       setUsermail(user.email);
     }
   }, []);
+
+  useEffect(() => {
+    if (!data) return;
+
+    const filtered: PlaceData = {};
+    Object.entries(data).forEach(([key, val]) => {
+      if (val.place.toLowerCase().startsWith(searchText.toLowerCase())) {
+        filtered[key] = val;
+      }
+    });
+
+  }, [searchText, data]);
+
   const handleSearch = () => {
     console.log("Searching for:", searchText);
   };
@@ -43,13 +58,6 @@ export default function Index() {
         const data = snapshot.val();
         setData(data);
       });
-      // for testing purpose
-      // Object.entries(data).map(([key, val]) =>{
-      //   console.log(val["district"], " ", val["place"])
-      //   places.push(key);
-      // }
-      // );
-      // console.log(places);
     } catch (err) {
       console.log(err);
     }
@@ -58,17 +66,8 @@ export default function Index() {
     <View style={styles.container}>
       {/* Content Scrollable */}
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search..."
-            value={searchText}
-            onChangeText={setSearchText}
-          />
-          <Button title="Search" onPress={handleSearch} />
-        </View>
-
+        <SearchBox data={data} />
+         
         {/* Cards Area */}
         <View style={styles.cardContainer}>
           {usermail == "admin@fake.com" ? (
@@ -76,15 +75,15 @@ export default function Index() {
           ) : (
             ""
           )}
-          <PlaceCardList data={data}/>
+          <PlaceCardList data={data} />
         </View>
-      <Button
-        title="Log Out"
-        onPress={() => {
-          signOut(getAuth()).then(() => console.log("User signed out!"));
-          router.replace("/login");
-        }}
-      />
+        <Button
+          title="Log Out"
+          onPress={() => {
+            signOut(getAuth()).then(() => console.log("User signed out!"));
+            router.replace("/login");
+          }}
+        />
       </ScrollView>
     </View>
   );
