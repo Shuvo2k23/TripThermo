@@ -1,12 +1,15 @@
+
 import { router } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import styles from "../css/styles";
+import styles from "../../assets/css/styles";
 
 type PlaceData = {
   [key: string]: {
     place: string;
     district: string;
+    description?: string;
+    image?: string;
   };
 };
 
@@ -24,7 +27,7 @@ export default function PlaceCardList({ data }: { data?: PlaceData }) {
            key={key}
           style={styles.card}
           onPress={() =>
-            router.push( `/place/${key}?place=${val.place}&district=${val.district}`)
+            router.push( `/components/place/${key}?details=${JSON.stringify(val)}`)
           } // ✅ navigate to dynamic route
         >
           <Text style={styles.placeText}>📍 {val.place}</Text>
