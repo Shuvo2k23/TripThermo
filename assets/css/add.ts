@@ -61,5 +61,11 @@ import { StyleSheet } from "react-native";
     marginTop: 20,
     color: "#999",
   },
+  label: {
+    fontWeight: "600",
+    fontSize: 16,
+    color: "#64748B",
+    marginTop: 10,
+  },
 });
 export default styles;

@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { Image } from "react-native";
+import '../global.css';
 
 export default function RootLayout() {
   return (
@@ -12,10 +13,9 @@ export default function RootLayout() {
             />
           ),headerTitleAlign: 'center',
         }}>
-      <Stack.Screen name="login"/>
-      <Stack.Screen name="index"/>
-      <Stack.Screen name="signup"/>
-      <Stack.Screen name="add"/>
+      <Stack.Screen name="auth"/>
+      <Stack.Screen name="admin"/>
+      <Stack.Screen name="users"/>
     </Stack>
   );
 }

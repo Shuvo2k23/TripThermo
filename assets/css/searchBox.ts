@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
   item: {
     paddingVertical: 8,
     fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   searchRow: {
     flexDirection: "row",
