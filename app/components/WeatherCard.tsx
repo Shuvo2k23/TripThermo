@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
@@ -5,6 +6,7 @@ import { ActivityIndicator, StyleSheet, View } from "react-native";
 import CurrentWeather from "./CurrentWeather";
 import ForecastList from "./ForecastList";
 import WeatherAlert from "./WeatherAlert";
+
 const API_KEY = "7d4f09bbb1c746928a5132830252206"; // replace with your WeatherAPI key
 
 type Props = {
@@ -15,10 +17,31 @@ export default function WeatherCard({ district }: Props) {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState<any>(null);
   const [forecast, setForecast] = useState<any[]>([]);
-  const [res, SetRes] = useState<any>(null);
+  const [res, setRes] = useState<any>(null);
+
+  const CACHE_KEY = `weather_${district}`;
+  const CACHE_TIME = 1000 * 60 * 10; // 10 minutes cache
+
   useEffect(() => {
     const fetchWeather = async () => {
       try {
+        const cached = await AsyncStorage.getItem(CACHE_KEY);
+
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          const now = new Date().getTime();
+
+          if (now - parsed.timestamp < CACHE_TIME) {
+            // Use cached data
+            setCurrent(parsed.data.current);
+            setForecast(parsed.data.forecast.forecastday);
+            setRes({ data: parsed.data });
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Fetch new data
         const res = await axios.get(
           `http://api.weatherapi.com/v1/forecast.json`,
           {
@@ -30,9 +53,19 @@ export default function WeatherCard({ district }: Props) {
             },
           }
         );
-        SetRes(res);
+
+        setRes(res);
         setCurrent(res.data.current);
         setForecast(res.data.forecast.forecastday);
+
+        // Save to cache
+        await AsyncStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({
+            timestamp: new Date().getTime(),
+            data: res.data,
+          })
+        );
       } catch (err) {
         console.log("Failed to fetch weather", err);
       } finally {

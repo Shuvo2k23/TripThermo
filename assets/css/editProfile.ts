@@ -31,12 +31,25 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   button: {
-    marginTop: 20,
+    marginTop: 24,
+    alignItems: "center",
   },
   centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  saveButton: {
+    backgroundColor: "#4F46E5",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+  },
+  saveButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
 export default styles;

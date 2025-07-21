@@ -7,6 +7,7 @@ export type PlaceItem = {
   image: PlaceItem | null;
   place: string;
   district: string;
+  description: string;
 };
 
 export type PlaceData = {
@@ -44,7 +45,10 @@ export const usePlaceDetails = (detailsParam: any) => {
 
       const filtered: PlaceData = {};
       Object.entries(data).forEach(([key, value]: [string, any]) => {
-        if (value.district === item.district && value.place !== item.place) {
+        if (
+          value.district.trim() === item.district.trim() &&
+          value.place.trim() !== item.place.trim()
+        ) {
           filtered[key] = value;
         }
       });

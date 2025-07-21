@@ -8,11 +8,12 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Button,
   ScrollView,
   Text,
-  View
+  TouchableOpacity,
+  View,
 } from "react-native";
+
 export default function UserProfile() {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -68,13 +69,13 @@ export default function UserProfile() {
         <Text style={styles.value}>{userData?.district}</Text>
       </View>
 
-      <View style={styles.button}>
-        <Button title="Edit Profile" onPress={goToEdit} color="#1D4ED8" />
-      </View>
-      <View style={styles.button}>
-        <Button title="Logout" onPress={handleLogout} color="#DC2626" />
-      </View>
+      <TouchableOpacity style={styles.editButton} onPress={goToEdit}>
+        <Text style={styles.buttonText}>Edit Profile</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
-

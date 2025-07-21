@@ -2,28 +2,27 @@ import styles from "@/assets/css/styles";
 import { auth, db } from "@/firebaseConfig";
 import { get, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import SearchBox from "../components/SearchBox";
 import PlaceCardList from "./PlaceCardLists";
+
 export default function Landing() {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState<PlaceData>();
-  const [usermail, setUsermail] = useState<String | null>();
-
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getPlaces();
+    setRefreshing(false);
+  };
   type PlaceData = {
     [key: string]: {
       place: string;
       district: string;
     };
   };
-  const places = [];
   useEffect(() => {
     getPlaces();
-    const user = auth.currentUser;
-    if (user) {
-      console.log("User email: ", user.email);
-      setUsermail(user.email);
-    }
   }, []);
 
   useEffect(() => {
@@ -67,7 +66,8 @@ export default function Landing() {
         // Step 3: Filter by matching district
         const filteredEntries = Object.entries(data).filter(
           ([, place]: [string, any]) =>
-            place.district.trim().toLowerCase() === userDistrict.trim().toLowerCase()
+            place.district.trim().toLowerCase() ===
+            userDistrict.trim().toLowerCase()
         );
         const filtered: PlaceData = {};
         filteredEntries.forEach(([key, value]) => {
@@ -83,7 +83,12 @@ export default function Landing() {
   return (
     <View style={styles.container}>
       {/* Content Scrollable */}
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <SearchBox />
         <Text style={{ fontSize: 18, fontWeight: "bold", paddingBottom: 12 }}>
           Suggested Places
