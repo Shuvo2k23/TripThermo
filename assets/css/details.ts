@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 240,
     borderRadius: 20,
-    marginBottom: 24,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
@@ -26,6 +25,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
+    marginTop: 20,
   },
   placeName: {
     fontSize: 28,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    marginTop: 20,
+    marginTop: 10,
   },
   weatherTitle: {
     fontSize: 20,
@@ -82,6 +82,12 @@ const styles = StyleSheet.create({
   },
   forecastList: {
     marginTop: 20,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginBottom: 6,
+    color: "#1e40af",
   },
 });
 

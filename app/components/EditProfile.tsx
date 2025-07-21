@@ -4,13 +4,13 @@ import { get, ref, update } from "@firebase/database";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Button,
-    ScrollView,
-    Text,
-    TextInput,
-    View
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import styles from "../../assets/css/editProfile";
 
@@ -84,7 +84,9 @@ export default function EditProfile() {
       />
 
       <View style={styles.button}>
-        <Button title="Save Changes" onPress={handleUpdate} color="#1D4ED8" />
+        <TouchableOpacity onPress={handleUpdate} style={styles.saveButton}>
+          <Text style={styles.saveButtonText}>Save Changes</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

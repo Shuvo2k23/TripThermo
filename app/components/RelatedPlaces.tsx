@@ -1,15 +1,19 @@
 // components/RelatedPlaces.tsx
-import { PlaceData } from "@/utils/usePlaceDetails";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import PlaceCardList from "./PlaceCardLists";
 
 
-type Props = {
-  data?: PlaceData;
+type PlaceData = {
+  [key: string]: {
+    place: string;
+    district: string;
+    description?: string;
+    image?: string;
+  };
 };
 
-const RelatedPlaces = ({ data }: Props) => {
+const RelatedPlaces = ({ data }: { data?: PlaceData }) => {
   return (
     <View>
       <Text style={styles.title}>Related Places:</Text>
