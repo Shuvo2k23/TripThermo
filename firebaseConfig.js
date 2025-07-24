@@ -28,3 +28,4 @@ const firebaseConfig = {
 // export { analytics };
 export const db = getDatabase(app);
 export const auth = getAuth(app);
+export default app;

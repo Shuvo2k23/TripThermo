@@ -15,7 +15,7 @@ export default function AIDescription({ data }: { data: any }) {
     if (!data) return;
     setLoading(true);
 
-    const CACHE_KEY = `weather_${data.district}`;
+    const CACHE_KEY = `weather_${data.district.trim()}`;
 
     AsyncStorage.getItem(CACHE_KEY).then((cached) => {
       if (!cached) {
@@ -35,21 +35,25 @@ export default function AIDescription({ data }: { data: any }) {
       const uv = current.uv ?? "N/A";
       const wind = current.wind_kph ?? "N/A";
       const rainChance = forecastDay.daily_chance_of_rain ?? "N/A";
+      const alerts = weatherData.data.alerts?.alert?.[0];
+      const humidity = current.humidity ?? "N/A";
 
-      // Create Gemini prompt
       const prompt = `
         Place: ${data.place}, District: ${data.district}.
         Current weather: ${weatherCondition}.
         Temperature: ${temp}°C.
         UV Index: ${uv}.
         Wind Speed: ${wind} km/h.
+        Humidity: ${humidity}%.
         Chance of Rain Today: ${rainChance}%.
-
-        Based on this weather data, is today suitable for traveling to ${data.place}? 
+        ${alerts ? `Weather Alert: ${alerts.headline}. ${alerts.desc}` : ""}
+        Based on this weather data${
+          alerts ? " and the alert information above" : ""
+        }, is today suitable for traveling to ${data.place}? 
         Give a friendly 2-3 sentence recommendation. If yes, explain why. If not, explain why not.
-        `;
-      console.log("Gemini Prompt:", prompt);
-
+      `;
+        console.log("Gemini Prompt:", prompt);
+        
       fetch(GEMINI_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -64,22 +68,18 @@ export default function AIDescription({ data }: { data: any }) {
             "No suggestion found.";
           setDescription(desc);
         })
-        .catch(() => setDescription("Gemini API call failed."))
+        .catch(() => setDescription("⚠️ Something went wrong."))
         .finally(() => setLoading(false));
     });
   }, [data]);
 
   return (
     <View>
-        <Text style={styles.title}>🤖 AI Suggestions:</Text>
+      <Text style={styles.title}>🤖 AI Suggestions:</Text>
       {loading ? (
         <ActivityIndicator />
       ) : (
-        <Text
-          style={styles.description}
-        >
-          {description}
-        </Text>
+        <Text style={styles.description}>{description}</Text>
       )}
     </View>
   );

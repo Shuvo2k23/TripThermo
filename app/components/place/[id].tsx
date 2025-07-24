@@ -3,7 +3,7 @@ import RelatedPlaces from "@/app/components/RelatedPlaces";
 import styles from "@/assets/css/details";
 import { usePlaceDetails } from "@/utils/usePlaceDetails";
 import { useLocalSearchParams } from "expo-router";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
 import AIDescription from "../AIDescription";
 import WeatherCard from "../WeatherCard";
 
@@ -12,15 +12,25 @@ export default function PlaceDetails() {
   const { item, relatedPlaces } = usePlaceDetails(details);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        source={{
-          uri:
-            typeof item?.image === "string"
-              ? item.image
-              : "https://i.ytimg.com/vi/II5G7qnZ3CU/maxresdefault.jpg",
+    <ScrollView
+      contentContainerStyle={styles.container}
+      refreshControl={
+      <RefreshControl
+        refreshing={false}
+        onRefresh={() => {
+        // Add your refresh logic here, e.g. re-fetch place details
         }}
-        style={styles.image}
+      />
+      }
+    >
+      <Image
+      source={{
+        uri:
+        item && typeof item.image === "string" && item.image !== ""
+          ? item.image
+          : "https://i.ytimg.com/vi/II5G7qnZ3CU/maxresdefault.jpg"
+      }}
+      style={styles.image}
       />
 
       {item ? (

@@ -16,7 +16,6 @@ export default function WeatherAlert({ alert }: AlertProps) {
   return (
     <View style={styles.alertBox}>
       <Text style={styles.title}>⚠️ {alert.event}</Text>
-      <Text style={styles.headline}>{alert.headline}</Text>
       <Text style={styles.desc}>{alert.desc}</Text>
       <Text style={styles.instruction}>{alert.instruction}</Text>
     </View>
