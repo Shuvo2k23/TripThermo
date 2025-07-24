@@ -1,7 +1,7 @@
 // app/screens/login.tsx
 import { auth, db } from "@/firebaseConfig";
-import { signInWithEmailAndPassword } from "@firebase/auth";
 import { router } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { get, ref } from "firebase/database";
 import React, { useState } from "react";
 import {
@@ -21,8 +21,14 @@ import styles from "../../assets/css/login";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
+    }
+    setLoading(true);
+    Keyboard.dismiss();
     try {
        await signInWithEmailAndPassword(
         auth,
@@ -61,6 +67,9 @@ export default function Login() {
       }
     } catch (error: any) {
       Alert.alert("Login Failed", error.message);
+    }
+    finally {
+      setLoading(false);
     }
   };
 

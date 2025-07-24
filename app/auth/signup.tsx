@@ -1,9 +1,5 @@
 // app/screens/signup.tsx
 import { auth, db } from "@/firebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "@firebase/auth";
 import { ref, set } from "@firebase/database";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -20,6 +16,7 @@ import {
   View,
 } from "react-native";
 import styles from "../../assets/css/signup";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
