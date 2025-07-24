@@ -1,9 +1,9 @@
 // app/user/profile.tsx
 import styles from "@/assets/css/profilePage";
 import { auth, db } from "@/firebaseConfig";
-import { signOut } from "@firebase/auth";
 import { onValue, ref } from "@firebase/database";
 import { router } from "expo-router";
+import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,

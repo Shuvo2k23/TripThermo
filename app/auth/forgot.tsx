@@ -1,21 +1,21 @@
 // app/auth/forgot.tsx
 import { auth, db } from "@/firebaseConfig";
-import { sendPasswordResetEmail } from "@firebase/auth";
 import { get, ref } from "@firebase/database";
 import { router } from "expo-router";
+import { sendPasswordResetEmail } from "firebase/auth";
 import React, { useState } from "react";
 import {
-    Alert,
-    Button,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableWithoutFeedback,
-    View,
+  Alert,
+  Button,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 
 export default function ForgotPassword() {
