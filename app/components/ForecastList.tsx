@@ -8,7 +8,7 @@ type Props = {
 export default function ForecastList({ data }: Props) {
   return (
     <View>
-      <Text style={styles.title}>7-Day Forecast</Text>
+      <Text style={styles.title}>3-Days Forecast</Text>
       <FlatList
         data={data}
         horizontal

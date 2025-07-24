@@ -7,7 +7,7 @@ import SearchBox from "../components/SearchBox";
 import PlaceCardList from "./PlaceCardLists";
 
 export default function Landing() {
-  const [searchText, setSearchText] = useState("");
+  const [filtered, setFiltered] = useState<PlaceData>();
   const [data, setData] = useState<PlaceData>();
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
@@ -25,16 +25,6 @@ export default function Landing() {
     getPlaces();
   }, []);
 
-  useEffect(() => {
-    if (!data) return;
-
-    const filtered: PlaceData = {};
-    Object.entries(data).forEach(([key, val]) => {
-      if (val.place.toLowerCase().startsWith(searchText.toLowerCase())) {
-        filtered[key] = val;
-      }
-    });
-  }, [searchText, data]);
   const getPlaces = async () => {
     try {
       const uid = auth.currentUser?.uid;
@@ -62,7 +52,7 @@ export default function Landing() {
           setData(undefined); // or null, depending on your state
           return;
         }
-
+        setData(data);
         // Step 3: Filter by matching district
         const filteredEntries = Object.entries(data).filter(
           ([, place]: [string, any]) =>
@@ -74,7 +64,7 @@ export default function Landing() {
           filtered[key] = value as { place: string; district: string };
         });
 
-        setData(filtered);
+        setFiltered(filtered);
       });
     } catch (err) {
       console.log("Error loading data:", err);
@@ -89,12 +79,12 @@ export default function Landing() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <SearchBox />
+        <SearchBox data={data ?? {}} />
         <Text style={{ fontSize: 18, fontWeight: "bold", paddingBottom: 12 }}>
           Suggested Places
         </Text>
 
-        <PlaceCardList data={data} />
+        <PlaceCardList data={filtered} />
       </ScrollView>
     </View>
   );

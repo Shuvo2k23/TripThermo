@@ -1,6 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { get, getDatabase, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "../../assets/css/searchBox";
@@ -13,34 +12,15 @@ type PlaceData = {
   };
 };
 
-type Props = {
-  data: PlaceData | undefined;
-};
+interface SearchBoxProps {
+  data: PlaceData;
+}
 
-const SearchBox = () => {
+const SearchBox = ({ data }: SearchBoxProps) => {
   const [searchText, setSearchText] = useState("");
   const [filteredPlaces, setFilteredPlaces] = useState<PlaceData>({});
   const router = useRouter();
-  const [data, setData] = useState<PlaceData | undefined>(undefined);
-
-  const getData = async () => {
-    try {
-      const db = getDatabase();
-      const snapshot = await get(ref(db, "/places"));
-      if (snapshot.exists()) {
-        setData(snapshot.val());
-      } else {
-        setData({});
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setData({});
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+ 
   useEffect(() => {
     if (!data) return;
 

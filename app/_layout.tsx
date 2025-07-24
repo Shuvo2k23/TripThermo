@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { Image } from "react-native";
 import '../global.css';
 
@@ -13,9 +13,7 @@ export default function RootLayout() {
             />
           ),headerTitleAlign: 'center',
         }}>
-      <Stack.Screen name="auth"/>
-      <Stack.Screen name="admin"/>
-      <Stack.Screen name="users"/>
+        <Redirect href="/auth/login" />
     </Stack>
   );
 }

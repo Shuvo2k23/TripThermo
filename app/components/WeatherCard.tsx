@@ -57,7 +57,8 @@ export default function WeatherCard({ district }: Props) {
         setRes(res);
         setCurrent(res.data.current);
         setForecast(res.data.forecast.forecastday);
-
+        // console.log(res.data);
+        
         // Save to cache
         await AsyncStorage.setItem(
           CACHE_KEY,
