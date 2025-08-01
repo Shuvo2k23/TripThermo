@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from "react-native";
+
 import AIDescription from "../AIDescription";
 import PlaceCard from "../PlaceCard";
 import WeatherCard from "../WeatherCard";
@@ -19,6 +20,7 @@ export default function PlaceDetails() {
   const { details } = useLocalSearchParams();
   const { item, relatedPlaces } = usePlaceDetails(details);
   const [isWeatherCached, setIsWeatherCached] = useState(false);
+
   const defaultImage =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQce_yi8YIsdo2ZFjEcCahx5IGiFNkprxP4og&s";
   const checkCache = async () => {
@@ -31,6 +33,7 @@ export default function PlaceDetails() {
         console.error("AsyncStorage error", e);
         setIsWeatherCached(false);
       }
+
     }
   };
   // Check for cached weather data
