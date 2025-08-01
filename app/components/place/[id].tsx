@@ -8,6 +8,7 @@ import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
 
 import PlaceCard from "../PlaceCard";
 import WeatherCard from "../WeatherCard";
+import AIDescription from "../AIDescription";
 
 export default function PlaceDetails() {
   const { details } = useLocalSearchParams();
@@ -72,16 +73,16 @@ export default function PlaceDetails() {
         )}
 
         {/* Show weather */}
-        {item ? <WeatherCard district={item.district.trim()} /> : null}
+        {item && <WeatherCard district={item.district.trim()} />}
 
         {/* Conditionally show AI Description */}
-        {/* <View style={styles.card}>
+        <View style={styles.card}>
           {isWeatherCached ? (
             <AIDescription data={item} />
           ) : (
             <Text>Weather info not available. Please refresh.</Text>
           )}
-        </View> */}
+        </View>
 
         {relatedPlaces ? (
           <View>

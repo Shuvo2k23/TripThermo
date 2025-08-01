@@ -58,7 +58,7 @@ export default function WeatherCard({ district }: Props) {
         setCurrent(res.data.current);
         setForecast(res.data.forecast.forecastday);
         // console.log(res.data);
-        
+
         // Save to cache
         await AsyncStorage.setItem(
           CACHE_KEY,
@@ -68,14 +68,14 @@ export default function WeatherCard({ district }: Props) {
           })
         );
       } catch (err) {
-        console.log("Failed to fetch weather", err);
+        // console.log("Failed to fetch weather", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchWeather();
-  }, [district]);
+  }, []);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#2196F3" />;
@@ -83,11 +83,11 @@ export default function WeatherCard({ district }: Props) {
 
   return (
     <View style={styles.card}>
-      <CurrentWeather data={current} />
-      {res.data.alerts?.alert?.length > 0 && (
+      {current && <CurrentWeather data={current} />}
+      {res && res.data && res.data.alerts?.alert?.length > 0 && (
         <WeatherAlert alert={res.data.alerts.alert[0]} />
       )}
-      <ForecastList data={forecast} />
+      {forecast && <ForecastList data={forecast} />}
     </View>
   );
 }
