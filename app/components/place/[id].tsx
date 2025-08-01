@@ -5,12 +5,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
+
 import PlaceCard from "../PlaceCard";
 
 export default function PlaceDetails() {
   const { details } = useLocalSearchParams();
   const { item, relatedPlaces } = usePlaceDetails(details);
   const [isWeatherCached, setIsWeatherCached] = useState(false);
+
   const defaultImage =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQce_yi8YIsdo2ZFjEcCahx5IGiFNkprxP4og&s";
   const checkCache = async () => {
@@ -23,6 +25,7 @@ export default function PlaceDetails() {
         console.error("AsyncStorage error", e);
         setIsWeatherCached(false);
       }
+
     }
   };
   // Check for cached weather data
