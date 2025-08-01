@@ -27,6 +27,7 @@ import { StyleSheet } from "react-native";
     marginBottom: 12,
     paddingHorizontal: 10,
     backgroundColor: "#fff",
+    color: "#111827",
   },
   buttonContainer: {
     flexDirection: "row",

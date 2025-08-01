@@ -23,6 +23,7 @@ export default StyleSheet.create({
     borderColor: "#D1D5DB",
     marginBottom: 15,
     fontSize: 16,
+    color: "#374151",
   },
   signupButton: {
     marginBottom: 20,
