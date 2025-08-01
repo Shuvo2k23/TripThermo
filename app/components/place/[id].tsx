@@ -4,16 +4,8 @@ import { usePlaceDetails } from "@/utils/usePlaceDetails";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  Image,
-  RefreshControl,
-  ScrollView,
-  Text,
-  View
-} from "react-native";
-import AIDescription from "../AIDescription";
+import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
 import PlaceCard from "../PlaceCard";
-import WeatherCard from "../WeatherCard";
 
 export default function PlaceDetails() {
   const { details } = useLocalSearchParams();
@@ -76,16 +68,16 @@ export default function PlaceDetails() {
         )}
 
         {/* Show weather */}
-        {item ? <WeatherCard district={item.district.trim()} /> : null}
+        {/* {item ? <WeatherCard district={item.district.trim()} /> : null} */}
 
         {/* Conditionally show AI Description */}
-        <View style={styles.card}>
+        {/* <View style={styles.card}>
           {isWeatherCached ? (
             <AIDescription data={item} />
           ) : (
             <Text>Weather info not available. Please refresh.</Text>
           )}
-        </View>
+        </View> */}
 
         {relatedPlaces ? (
           <View>
@@ -97,12 +89,16 @@ export default function PlaceDetails() {
                 place={place.place}
                 district={place.district}
                 description={place.description}
-                image={typeof place.image === "string" ? place.image : defaultImage}
+                image={
+                  typeof place.image === "string" ? place.image : defaultImage
+                }
                 data={place}
               />
             ))}
           </View>
-        ) : <Text style={styles.title}>No related places found.</Text>}
+        ) : (
+          <Text style={styles.title}>No related places found.</Text>
+        )}
       </ScrollView>
     </View>
   );
