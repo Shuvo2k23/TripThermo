@@ -27,8 +27,11 @@ export default function PlaceCardList({ data }: { data?: PlaceData }) {
            key={key}
           style={styles.card}
           onPress={() =>
-            router.push( `/components/place/${key}?details=${JSON.stringify(val)}`)
-          } // ✅ navigate to dynamic route
+            router.push({
+              pathname: "/components/place/[id]",
+              params: { id: key, details: JSON.stringify(val) }
+            })
+          } 
         >
           <Text style={styles.placeText}>📍 {val.place}</Text>
           <Text style={styles.districtText}>🏙️ {val.district}</Text>

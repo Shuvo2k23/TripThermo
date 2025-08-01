@@ -17,61 +17,65 @@ import {
   View,
 } from "react-native";
 import styles from "../../assets/css/login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Please enter both email and password.");
+  if (!email || !password) {
+    Alert.alert("Error", "Please enter both email and password.");
+    return;
+  }
+
+  setLoading(true);
+  Keyboard.dismiss();
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    const user = auth.currentUser;
+
+    if (user && !user.emailVerified) {
+      Alert.alert("Email Not Verified", "Please verify your email before logging in.");
       return;
     }
-    setLoading(true);
-    Keyboard.dismiss();
-    try {
-       await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = auth.currentUser;
 
-      if (user && !user.emailVerified) {
-        Alert.alert(
-          "Email Not Verified",
-          "Please verify your email before logging in."
-        );
-        return; // block login
-      }
+    if (!user) {
+      Alert.alert("Error", "User not found.");
+      return;
+    }
 
-      // Fetch user role from Realtime Database
-      if (!user) {
-        Alert.alert("Error", "User not found.");
-        return;
-      }
-      const userRef = ref(db, "users/" + user.uid);
-      const snapshot = await get(userRef);
+    const userRef = ref(db, "users/" + user.uid);
+    const snapshot = await get(userRef);
 
-      if (snapshot.exists()) {
-        const userData = snapshot.val();
-        const role = userData.role;
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      const role = userData.role;
 
-        if (role === "admin") {
-          router.replace("/admin/(tabs)");
-        } else {
-          router.replace("/users/(tabs)");
-        }
+      // ✅ Cache user info
+      await AsyncStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        email: user.email,
+        role: role,
+        ...userData, // any other data from DB
+      }));
+
+      // 🔁 Redirect
+      if (role === "admin") {
+        router.replace("/admin/(tabs)");
       } else {
-        Alert.alert("Error", "User data not found in database.");
+        router.replace("/users/(tabs)");
       }
-    } catch (error: any) {
-      Alert.alert("Login Failed", error.message);
+    } else {
+      Alert.alert("Error", "User data not found in database.");
     }
-    finally {
-      setLoading(false);
-    }
-  };
+  } catch (error: any) {
+    Alert.alert("Login Failed", error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <KeyboardAvoidingView

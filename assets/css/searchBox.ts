@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   dropdown: {
-    position: "absolute",
-    top: 50,
+    position: "relative",
+    top: -10,
     left: 0,
     right: 0,
     backgroundColor: "#fff",
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 6,
+    zIndex: 100,
   },
   item: {
     paddingVertical: 8,
@@ -57,5 +58,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
+  resultRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  paddingVertical: 8,
+  paddingHorizontal: 10,
+},
+
+editButton: {
+  color: "#2196F3",
+  fontWeight: "bold",
+  paddingHorizontal: 8,
+},
+
 });
 export default styles;

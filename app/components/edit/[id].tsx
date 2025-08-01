@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { ref, set } from "firebase/database";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -12,43 +14,49 @@ import {
   View,
 } from "react-native";
 
-import { ref, set } from "firebase/database";
-
 import styles from "@/assets/css/add";
 import { db } from "@/firebaseConfig";
 
-export default function Add() {
+export default function EditPlace() {
+  const { id, details } = useLocalSearchParams<{ id: string; details: string }>();
+  const router = useRouter();
+
   const [place, setPlace] = useState("");
   const [district, setDistrict] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
-  type PlaceData = {
-    [key: string]: {
-      place: string;
-      district: string;
-    };
-  };
-  const dataAdd = async () => {
+
+  useEffect(() => {
+    if (details) {
+      try {
+        const parsed = JSON.parse(details);
+        setPlace(parsed.place || "");
+        setDistrict(parsed.district || "");
+        setDescription(parsed.description || "");
+        setImage(parsed.image || "");
+      } catch (e) {
+        Alert.alert("Error", "Invalid place details.");
+      }
+    }
+  }, [details]);
+
+  const updatePlace = async () => {
     if (place.trim() !== "" && district.trim() !== "") {
       setLoading(true);
       try {
-        // Add place to the database
-        await set(ref(db, "places/" + place), {
+        await set(ref(db, "places/" + id), {
           place,
           district,
           description,
           image,
         });
+        Alert.alert("Success", "Place updated successfully!");
+        router.back();
       } catch (error) {
-        Alert.alert("Error", "Failed to add place. Please try again.");
+        Alert.alert("Error", "Failed to update place. Please try again.");
       } finally {
-        Alert.alert("Success", "Place added successfully!");
         setLoading(false);
-        setPlace("");
-        setDistrict("");
-        setDescription("");
-        setImage("");
       }
     }
   };
@@ -95,9 +103,9 @@ export default function Add() {
                 onChangeText={setImage}
               />
               <Button
-                title={loading ? "Processing..." : "Add Place"}
-                onPress={dataAdd}
-                color="#4CAF50"
+                title={loading ? "Updating..." : "Update Place"}
+                onPress={updatePlace}
+                color="#2196F3"
                 disabled={loading}
               />
             </View>
