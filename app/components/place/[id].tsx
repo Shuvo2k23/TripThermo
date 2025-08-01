@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Image, RefreshControl, ScrollView, Text, View } from "react-native";
 
 import PlaceCard from "../PlaceCard";
+import WeatherCard from "../WeatherCard";
 
 export default function PlaceDetails() {
   const { details } = useLocalSearchParams();
@@ -71,7 +72,7 @@ export default function PlaceDetails() {
         )}
 
         {/* Show weather */}
-        {/* {item ? <WeatherCard district={item.district.trim()} /> : null} */}
+        {item ? <WeatherCard district={item.district.trim()} /> : null}
 
         {/* Conditionally show AI Description */}
         {/* <View style={styles.card}>
