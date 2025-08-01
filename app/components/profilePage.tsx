@@ -2,12 +2,12 @@
 import styles from "@/assets/css/profilePage";
 import { auth, db } from "@/firebaseConfig";
 import { onValue, ref } from "@firebase/database";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -34,12 +34,9 @@ export default function UserProfile() {
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      router.replace("/auth/login");
-    } catch (error: any) {
-      Alert.alert("Error", error.message);
-    }
+    await signOut(auth);
+    await AsyncStorage.removeItem("user");
+    router.replace("/auth/login");
   };
 
   const goToEdit = () => {

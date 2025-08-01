@@ -17,6 +17,7 @@ import { StyleSheet } from "react-native";
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
+    paddingBottom: 80,
   },
   input: {
     height: 40,
@@ -31,6 +32,8 @@ import { StyleSheet } from "react-native";
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 10,
+    margin: 10,
+    paddingBottom: 55,
   },
   scrollContainer: {
     paddingBottom: 100,

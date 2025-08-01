@@ -4,7 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e6f2ff', // light sky blue background
-    padding: 16,
+    padding: 1,
     paddingBottom: 40,
   },
 
@@ -101,5 +101,17 @@ export default StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     color: '#94a3b8',
+  },
+  editButton: {
+    backgroundColor: '#3b82f6',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  editButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

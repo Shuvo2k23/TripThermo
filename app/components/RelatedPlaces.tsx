@@ -1,7 +1,7 @@
 // components/RelatedPlaces.tsx
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import PlaceCardList from "./PlaceCardLists";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import PlaceCard from "./PlaceCard";
 
 
 type PlaceData = {
@@ -14,15 +14,38 @@ type PlaceData = {
 };
 
 const RelatedPlaces = ({ data }: { data?: PlaceData }) => {
+  const dataArray = Object.entries(data || {});
   return (
-    <View>
-      <Text style={styles.title}>Related Places:</Text>
-      {data && Object.keys(data).length > 0 ? (
-        <PlaceCardList data={data} />
-      ) : (
-        <Text style={styles.empty}>No related places found.</Text>
+    <FlatList
+      data={dataArray}
+      keyExtractor={([key]) => key}
+      numColumns={2}
+      contentContainerStyle={{padding: 16,}}
+      columnWrapperStyle={{ justifyContent: "space-between" }}
+      
+      ListHeaderComponent={() => (
+        <View>
+          <Text
+            style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}
+          >
+            Suggested Places:
+          </Text>
+        </View>
       )}
-    </View>
+      renderItem={({ item }) => {
+        const [key, val] = item;
+        return (
+          <PlaceCard
+            id={key}
+            place={val.place}
+            district={val.district}
+            description={val.description}
+            image={val.image}
+            data={val}
+          />
+        );
+      }}
+    />
   );
 };
 
