@@ -97,6 +97,9 @@ export default function Landing() {
         }
         ListHeaderComponent={() => (
           <View>
+            <Text style={{ fontSize: 18, fontWeight: "bold", padding: 10 }}>
+              Search Places:
+            </Text>
             {
               data && (<SearchBox data={data ?? {}} />)
             }
