@@ -8,7 +8,7 @@ const GEMINI_URL =
   GEMINI_API_KEY;
 
 export default function AIDescription({ data }: { data: any }) {
-  const [description, setDescription] = useState<string | null>(null);
+  const [description, setDescription] = useState<string >("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function AIDescription({ data }: { data: any }) {
         .catch(() => setDescription("⚠️ Something went wrong."))
         .finally(() => setLoading(false));
     });
-  }, [data]);
+  }, []);
 
   return (
     <View>
