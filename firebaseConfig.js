@@ -12,20 +12,7 @@ const firebaseConfig = {
   measurementId: "G-FMQ7KG87JR"
 };
 
-// Initialize Firebase
- const app = initializeApp(firebaseConfig);
-// let analytics;
-// isSupported()
-//   .then((supported) => {
-//     if (supported) {
-//       analytics = getAnalytics(app);
-//     }
-//   })
-//   .catch((e) => {
-//     console.log('Analytics not supported', e);
-//   });
-// if(analytics)
-// export { analytics };
+const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 export const auth = getAuth(app);
 export default app;

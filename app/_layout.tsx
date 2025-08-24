@@ -1,9 +1,34 @@
 import { auth, db } from "@/firebaseConfig";
+import { Image } from "expo-image";
 import { router, Stack } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { get, ref } from "firebase/database";
 import { useEffect } from "react";
-import { Alert, Image } from "react-native";
+import { Alert } from "react-native";
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+
+// Wrapper component that uses the theme
+function StackWithThemedHeader() {
+  const { theme } = useTheme();
+  
+  return (
+    <Stack
+      screenOptions={{
+        headerTitle: () => (
+          <Image
+            source={require("@/assets/images/1.png")}
+            style={{ width: 220, height: 50, resizeMode: "center" }}
+          />
+        ),
+        headerTitleAlign: "center",
+      }}
+    >
+      <Stack.Screen name="auth" />
+      <Stack.Screen name="admin" />
+      <Stack.Screen name="users" />
+    </Stack>
+  );
+}
 
 export default function RootLayout() {
   useEffect(() => {
@@ -39,20 +64,8 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <Stack
-      screenOptions={{
-        headerTitle: () => (
-          <Image
-            source={require("@/assets/images/1.png")}
-            style={{ width: 220, height: 50, resizeMode: "center" }}
-          />
-        ),
-        headerTitleAlign: "center",
-      }}
-    >
-      <Stack.Screen name="auth" />
-      <Stack.Screen name="admin" />
-      <Stack.Screen name="users" />
-    </Stack>
+    <ThemeProvider>
+      <StackWithThemedHeader />
+    </ThemeProvider>
   );
 }
