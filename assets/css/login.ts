@@ -1,12 +1,14 @@
-// css/login.ts
+import { useTheme } from "@/app/contexts/ThemeContext";
 import { StyleSheet } from "react-native";
+  const { theme, toggleTheme, isDark } = useTheme();
 
+// css/login.ts
 export default StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#F3F4F6",
+    backgroundColor: theme.colors.text,
   },
   title: {
     fontSize: 30,
