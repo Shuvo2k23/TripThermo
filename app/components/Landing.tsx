@@ -90,8 +90,6 @@ export default function Landing() {
     container: {
       flex: 1,
       backgroundColor: theme.colors.background,
-      padding: 1,
-      paddingBottom: 40,
     },
     content: {
       padding: 1,

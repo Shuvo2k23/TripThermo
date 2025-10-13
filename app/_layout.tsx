@@ -1,16 +1,11 @@
-import { auth, db } from "@/firebaseConfig";
 import { Image } from "expo-image";
-import { router, Stack } from "expo-router";
-import { onAuthStateChanged } from "firebase/auth";
-import { get, ref } from "firebase/database";
-import { useEffect } from "react";
-import { Alert } from "react-native";
-import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { Stack } from "expo-router";
+import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 
 // Wrapper component that uses the theme
 function StackWithThemedHeader() {
   const { theme } = useTheme();
-  
+
   return (
     <Stack
       screenOptions={{
@@ -31,38 +26,6 @@ function StackWithThemedHeader() {
 }
 
 export default function RootLayout() {
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        router.replace("/auth/login");
-        return;
-      }
-
-      try {
-        const userRef = ref(db, "users/" + user.uid);
-        const snapshot = await get(userRef);
-
-        if (snapshot.exists()) {
-          const userData = snapshot.val();
-          const role = userData.role;
-
-          if (role === "admin") {
-            router.replace("/admin/(tabs)");
-          } else {
-            router.replace("/users/(tabs)");
-          }
-        } else {
-          router.replace("/auth/login");
-        }
-      } catch (error: any) {
-        Alert.alert("Error", error.message);
-      }
-    });
-
-    // Clean up listener on unmount
-    return () => unsubscribe();
-  }, []);
-
   return (
     <ThemeProvider>
       <StackWithThemedHeader />

@@ -270,7 +270,7 @@ export default function WeatherScreen() {
                     activeOpacity={0.8}
                   >
                     <Text style={dynamicStyles.closeButtonText}>
-                      ✕ Close AI Description
+                      ✕ Close
                     </Text>
                   </TouchableOpacity>
                 </>
