@@ -1,11 +1,13 @@
 import { useTheme } from '@/app/contexts/ThemeContext';
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function _layout() {
   const { theme } = useTheme();
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <Tabs
       screenOptions={({ route }) => ({
         headerShown: false,
@@ -21,7 +23,6 @@ export default function _layout() {
           shadowOpacity: 0.1,
           shadowRadius: 4,
           height: 60,
-          paddingBottom: 8,
           paddingTop: 8,
         },
         tabBarLabelStyle: {
@@ -62,5 +63,6 @@ export default function _layout() {
         }} 
       />
     </Tabs>
+    </SafeAreaView>
   );
 }
