@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
-const GEMINI_API_KEY = "AIzaSyDR6QnPY3KOFhnGlRnROnNPHvuEhg3rc8w";
+const GEMINI_API_KEY = "AIzaSyDccBwS1nua4I7q1dH74gVETPYU9LBZOkE";
 const GEMINI_URL =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
   GEMINI_API_KEY;
