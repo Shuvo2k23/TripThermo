@@ -4,7 +4,7 @@ import { useTheme } from '@/app/contexts/ThemeContext';
 import { auth, db } from "@/firebaseConfig";
 import { get, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
 
 export default function Landing() {
   const [data, setData] = useState<PlaceData>();
@@ -12,7 +12,7 @@ export default function Landing() {
   const [userDistrict, setUserDistrict] = useState<string>("");
   const [refreshing, setRefreshing] = useState(false);
   const { theme } = useTheme();
-  
+  const [loading, setLoading] = useState(false);
   type PlaceData = {
     [key: string]: {
       place: string;
@@ -24,6 +24,7 @@ export default function Landing() {
 
   const getPlaces = async () => {
     try {
+      setLoading(true);
       const uid = auth.currentUser?.uid;
       if (!uid) {
         console.log("No user is logged in");
@@ -72,6 +73,9 @@ export default function Landing() {
       }
     } catch (err) {
       console.log("Error loading data:", err);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -168,6 +172,14 @@ export default function Landing() {
       fontWeight: '600',
     },
   });
+
+  if (loading) {
+    return (
+      <View style={[dynamicStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>  
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={dynamicStyles.container}>

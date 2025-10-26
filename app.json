@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rshuvo036.TripThermo",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -42,7 +46,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "5dc2132f-f130-4964-919c-3ba62a4cfba3"
+        "projectId": "8947e134-6a27-45bf-9694-33980dbcfd49"
       }
     }
   }
